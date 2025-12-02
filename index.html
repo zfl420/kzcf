@@ -274,7 +274,7 @@
             font-size: 11px;
         }
 
-        /* AI报价页面 */
+        /* AI报价页面 - IM聊天界面 */
         .page-header {
             background: white;
             padding: 12px 20px;
@@ -296,230 +296,254 @@
             font-weight: bold;
         }
 
-        .car-image {
-            width: 100%;
-            height: 180px;
-            background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 100%);
+        .chat-container {
+            height: calc(100% - 56px - 70px);
+            overflow-y: auto;
+            padding: 15px;
+            background: #f5f5f5;
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 20px;
+            animation: messageSlideIn 0.3s ease;
+        }
+
+        @keyframes messageSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message-left {
+            justify-content: flex-start;
+        }
+
+        .message-right {
+            justify-content: flex-end;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .message-content {
+            max-width: 70%;
+            margin: 0 10px;
+        }
+
+        .message-bubble {
+            padding: 10px 15px;
+            border-radius: 18px;
             font-size: 14px;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+
+        .message-left .message-bubble {
+            background: white;
+            border-top-left-radius: 4px;
+        }
+
+        .message-right .message-bubble {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-top-right-radius: 4px;
+        }
+
+        .message-time {
+            font-size: 11px;
             color: #999;
+            margin-top: 5px;
+            padding: 0 5px;
         }
 
-        .tabs {
-            display: flex;
-            justify-content: flex-end;
-            padding: 10px 20px;
+        .message-right .message-time {
+            text-align: right;
+        }
+
+        .quote-card {
             background: white;
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: 8px;
+            border: 1px solid #e0e0e0;
         }
 
-        .tab {
-            padding: 5px 15px;
-            border: 1px solid #ddd;
-            border-radius: 15px;
-            font-size: 13px;
-            cursor: pointer;
-        }
-
-        .car-info {
-            background: white;
-            padding: 15px 20px;
-            margin-bottom: 10px;
-        }
-
-        .car-model {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .car-logo {
-            font-size: 28px;
-        }
-
-        .car-vin {
-            font-size: 13px;
-            color: #666;
+        .quote-header {
             display: flex;
             align-items: center;
             gap: 8px;
-        }
-
-        .parts-section {
-            background: white;
             margin-bottom: 10px;
-        }
-
-        .section-header {
-            padding: 12px 20px;
-            background: #f8f8f8;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .section-title {
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .modify-btn {
-            color: #FF5252;
-            font-size: 13px;
-            cursor: pointer;
-        }
-
-        .part-item {
-            padding: 15px 20px;
+            padding-bottom: 8px;
             border-bottom: 1px solid #f0f0f0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
-        .part-info {
+        .quote-car-name {
+            font-weight: bold;
+            font-size: 13px;
             flex: 1;
         }
 
-        .part-name {
-            font-size: 14px;
-            margin-bottom: 5px;
+        .quote-vin {
+            font-size: 11px;
+            color: #666;
+            margin-top: 3px;
         }
 
-        .part-code {
-            font-size: 12px;
-            color: #999;
-        }
-
-        .part-right {
+        .quote-item {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f8f8f8;
         }
 
-        .part-price {
+        .quote-item:last-child {
+            border-bottom: none;
+        }
+
+        .quote-item-name {
+            font-size: 13px;
+            color: #333;
+        }
+
+        .quote-item-brand {
+            font-size: 11px;
+            color: #999;
+            margin-top: 2px;
+        }
+
+        .quote-item-price {
+            font-size: 14px;
             color: #FF5252;
-            font-size: 16px;
             font-weight: bold;
         }
 
-        .quantity-control {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: #f5f5f5;
-            border-radius: 20px;
-            padding: 5px 10px;
-        }
-
-        .quantity-btn {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .quantity {
-            min-width: 30px;
-            text-align: center;
-            font-size: 14px;
-        }
-
-        .add-btn {
-            width: 30px;
-            height: 30px;
-            background: #FF5252;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 18px;
-        }
-
-        .show-more {
-            text-align: center;
-            padding: 10px;
-            color: #999;
-            font-size: 13px;
-            cursor: pointer;
-        }
-
-        .cart-footer {
+        .chat-input-container {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
             background: white;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            padding: 10px 15px 25px;
+            border-top: 1px solid #e0e0e0;
         }
 
-        .cart-info {
+        .chat-input-wrapper {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .cart-icon {
-            position: relative;
-            font-size: 32px;
-            color: #FF5252;
+        .chat-input {
+            flex: 1;
+            background: #f5f5f5;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            padding: 10px 15px;
+            font-size: 14px;
+            outline: none;
+            transition: border 0.3s;
         }
 
-        .cart-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #ff4444;
-            color: white;
-            font-size: 10px;
-            width: 18px;
-            height: 18px;
+        .chat-input:focus {
+            border-color: #667eea;
+            background: white;
+        }
+
+        .send-btn {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
             border-radius: 50%;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: transform 0.2s;
         }
 
-        .cart-price {
+        .send-btn:active {
+            transform: scale(0.95);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .typing-indicator {
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 10px 15px;
         }
 
-        .total-price {
-            color: #FF5252;
-            font-size: 18px;
-            font-weight: bold;
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #999;
+            border-radius: 50%;
+            animation: typingAnimation 1.4s infinite;
         }
 
-        .discount {
-            font-size: 11px;
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typingAnimation {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .welcome-message {
+            text-align: center;
+            padding: 30px 20px;
             color: #999;
         }
 
-        .checkout-btn {
-            background: linear-gradient(135deg, #FF6B6B 0%, #FF5252 100%);
-            color: white;
-            padding: 12px 35px;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            border: none;
+        .welcome-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .welcome-text {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .example-vin {
+            display: inline-block;
+            background: #f0f0f0;
+            padding: 4px 10px;
+            border-radius: 12px;
+            margin: 5px 0;
+            font-family: monospace;
+            font-size: 12px;
         }
 
         /* 个人中心 */
@@ -852,7 +876,7 @@
             <div style="height: 80px;"></div>
         </div>
 
-        <!-- AI报价页面 -->
+        <!-- AI报价页面 - IM聊天界面 -->
         <div class="page" id="quote-page">
             <div class="page-header">
                 <span class="back-btn" onclick="navigateTo('home-page')">←</span>
@@ -860,117 +884,28 @@
                 <span></span>
             </div>
 
-            <div class="car-image">
-                <div style="font-size: 48px;">🚗</div>
-            </div>
-
-            <div class="tabs">
-                <span class="tab">2滤</span>
-            </div>
-
-            <div class="car-info">
-                <div class="car-model">
-                    <span class="car-logo">🌟</span>
-                    <span>奔驰 GLA 200 1.6T 2019 动感型</span>
-                </div>
-                <div class="car-vin">
-                    <span>LE4TG4DB9KL243278</span>
-                    <span>📋</span>
-                    <span style="background: #f0f0f0; padding: 2px 8px; border-radius: 10px; font-size: 11px;">FPC</span>
-                </div>
-            </div>
-
-            <div class="parts-section">
-                <div class="section-header">
-                    <div>
-                        <span class="section-title">空气滤芯</span>
-                        <span style="color: #999; font-size: 12px; margin-left: 10px;">(3)</span>
-                    </div>
-                    <span class="modify-btn">修改配件</span>
-                </div>
-                <div class="section-header" style="background: white; border-top: 1px solid #f0f0f0;">
-                    <span style="font-size: 13px;">用量：4</span>
-                </div>
-                <div class="part-item">
-                    <div class="part-info">
-                        <div class="part-name">马勒 OX1188DECO</div>
-                    </div>
-                    <div class="part-right">
-                        <span class="part-price">¥ 29</span>
-                        <div class="add-btn" onclick="addToCart('马勒 OX1188DECO', 29)">+</div>
-                    </div>
-                </div>
-                <div class="part-item">
-                    <div class="part-info">
-                        <div class="part-name">巨江 JO05345</div>
-                        <div class="part-code">微金</div>
-                    </div>
-                    <div class="part-right">
-                        <span class="part-price">¥ 29</span>
-                        <div class="quantity-control" id="item-1">
-                            <span class="quantity-btn" onclick="updateQuantity('item-1', -1)">−</span>
-                            <span class="quantity">4</span>
-                            <span class="quantity-btn" onclick="updateQuantity('item-1', 1)">+</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="part-item">
-                    <div class="part-info">
-                        <div class="part-name">巨江 JO05345</div>
-                    </div>
-                    <div class="part-right">
-                        <span class="part-price">¥ 29</span>
-                        <div class="add-btn" onclick="addToCart('巨江 JO05345', 29)">+</div>
-                    </div>
-                </div>
-                <div class="show-more">展开全部 ∨</div>
-            </div>
-
-            <div class="parts-section">
-                <div class="section-header">
-                    <div>
-                        <span class="section-title">空调滤芯</span>
-                        <span style="color: #999; font-size: 12px; margin-left: 10px;">(5)</span>
-                    </div>
-                </div>
-                <div class="part-item">
-                    <div class="part-info">
-                        <div class="part-name">巴固特 XXX 碳陶</div>
-                    </div>
-                    <div class="part-right">
-                        <span class="part-price">¥ 29</span>
-                        <div class="add-btn" onclick="addToCart('巴固特 XXX 碳陶', 29)">+</div>
-                    </div>
-                </div>
-                <div class="part-item">
-                    <div class="part-info">
-                        <div class="part-name">巴固特 XXX 碳陶</div>
-                    </div>
-                    <div class="part-right">
-                        <span class="part-price">¥ 29</span>
-                        <div class="quantity-control" id="item-2">
-                            <span class="quantity-btn" onclick="updateQuantity('item-2', -1)">−</span>
-                            <span class="quantity">2</span>
-                            <span class="quantity-btn" onclick="updateQuantity('item-2', 1)">+</span>
-                        </div>
+            <div class="chat-container" id="chat-container">
+                <div class="welcome-message" id="welcome-message">
+                    <div class="welcome-icon">🤖</div>
+                    <div class="welcome-text">
+                        您好！我是AI报价助手<br>
+                        请输入车架号，我将为您提供配件报价<br>
+                        <div class="example-vin">示例：LE4TG4DB9KL243278</div>
                     </div>
                 </div>
             </div>
 
-            <div style="height: 100px;"></div>
-
-            <div class="cart-footer">
-                <div class="cart-info">
-                    <div class="cart-icon">
-                        🛒
-                        <span class="cart-badge" id="cart-count">2</span>
-                    </div>
-                    <div class="cart-price">
-                        <div class="total-price" id="total-price">¥ 355.52</div>
-                        <div class="discount">优惠 ¥ 0.00</div>
-                    </div>
+            <div class="chat-input-container">
+                <div class="chat-input-wrapper">
+                    <input type="text" 
+                           class="chat-input" 
+                           id="chat-input" 
+                           placeholder="请输入车架号..."
+                           maxlength="17">
+                    <button class="send-btn" id="send-btn" onclick="sendMessage()">
+                        ➤
+                    </button>
                 </div>
-                <button class="checkout-btn" onclick="checkout()">结算</button>
             </div>
         </div>
 
@@ -1066,8 +1001,8 @@
                 <div class="nav-text">首页</div>
             </div>
             <div class="nav-item" onclick="navigateTo('quote-page')">
-                <div class="nav-icon">💬</div>
-                <div class="nav-text">沟通</div>
+                <div class="nav-icon">🤖</div>
+                <div class="nav-text">AI报价</div>
             </div>
             <div class="nav-item" onclick="showNotification('发布商圈')">
                 <div class="nav-icon" style="font-size: 32px; color: #FF5252;">➕</div>
@@ -1102,60 +1037,189 @@
             
             if (pageId === 'home-page') {
                 document.querySelectorAll('.nav-item')[0].classList.add('active');
+            } else if (pageId === 'quote-page') {
+                document.querySelectorAll('.nav-item')[1].classList.add('active');
             } else if (pageId === 'profile-page') {
                 document.querySelectorAll('.nav-item')[4].classList.add('active');
             }
         }
 
-        // 购物车数据
-        let cartItems = 2;
-        let totalPrice = 355.52;
-
-        // 添加到购物车
-        function addToCart(itemName, price) {
-            cartItems++;
-            totalPrice += price;
-            updateCart();
-            showNotification(`已添加 ${itemName} 到购物车`);
-        }
-
-        // 更新数量
-        function updateQuantity(itemId, delta) {
-            const item = document.getElementById(itemId);
-            const quantityEl = item.querySelector('.quantity');
-            let quantity = parseInt(quantityEl.textContent);
+        // AI聊天功能
+        let chatMessages = [];
+        
+        // 发送消息
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
             
-            quantity += delta;
-            if (quantity < 1) quantity = 1;
+            if (!message) return;
             
-            quantityEl.textContent = quantity;
-            
-            // 更新购物车
-            if (delta > 0) {
-                cartItems++;
-                totalPrice += 29;
-            } else if (delta < 0 && cartItems > 0) {
-                cartItems--;
-                totalPrice -= 29;
+            // 隐藏欢迎消息
+            const welcomeMsg = document.getElementById('welcome-message');
+            if (welcomeMsg) {
+                welcomeMsg.style.display = 'none';
             }
             
-            updateCart();
+            // 添加用户消息
+            addMessage(message, 'user');
+            
+            // 清空输入框
+            input.value = '';
+            
+            // 模拟AI正在输入
+            showTypingIndicator();
+            
+            // 延迟显示AI回复
+            setTimeout(() => {
+                hideTypingIndicator();
+                handleAIResponse(message);
+            }, 1500);
         }
-
-        // 更新购物车显示
-        function updateCart() {
-            document.getElementById('cart-count').textContent = cartItems;
-            document.getElementById('total-price').textContent = `¥ ${totalPrice.toFixed(2)}`;
-        }
-
-        // 结算
-        function checkout() {
-            if (cartItems === 0) {
-                showNotification('购物车是空的');
-                return;
+        
+        // 添加消息到聊天界面
+        function addMessage(content, type, isQuote = false) {
+            const container = document.getElementById('chat-container');
+            const messageDiv = document.createElement('div');
+            
+            if (type === 'user') {
+                messageDiv.className = 'message message-right';
+                messageDiv.innerHTML = `
+                    <div class="message-content">
+                        <div class="message-bubble">${content}</div>
+                        <div class="message-time">${getCurrentTime()}</div>
+                    </div>
+                    <div class="message-avatar">👤</div>
+                `;
+            } else {
+                messageDiv.className = 'message message-left';
+                messageDiv.innerHTML = `
+                    <div class="message-avatar">🤖</div>
+                    <div class="message-content">
+                        <div class="message-bubble">
+                            ${content}
+                            ${isQuote ? getQuoteCard() : ''}
+                        </div>
+                        <div class="message-time">${getCurrentTime()}</div>
+                    </div>
+                `;
             }
-            showNotification(`正在结算 ${cartItems} 件商品，总计 ¥${totalPrice.toFixed(2)}`);
+            
+            container.appendChild(messageDiv);
+            
+            // 滚动到底部
+            container.scrollTop = container.scrollHeight;
+            
+            chatMessages.push({ content, type, time: getCurrentTime() });
         }
+        
+        // 显示正在输入指示器
+        function showTypingIndicator() {
+            const container = document.getElementById('chat-container');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message message-left';
+            typingDiv.id = 'typing-indicator';
+            typingDiv.innerHTML = `
+                <div class="message-avatar">🤖</div>
+                <div class="message-content">
+                    <div class="message-bubble">
+                        <div class="typing-indicator">
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(typingDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+        
+        // 隐藏正在输入指示器
+        function hideTypingIndicator() {
+            const indicator = document.getElementById('typing-indicator');
+            if (indicator) {
+                indicator.remove();
+            }
+        }
+        
+        // 处理AI回复
+        function handleAIResponse(userMessage) {
+            // 简单的车架号验证（17位字符）
+            const vinPattern = /^[A-HJ-NPR-Z0-9]{17}$/i;
+            
+            if (vinPattern.test(userMessage)) {
+                // 有效的车架号，返回报价信息
+                addMessage('已为您查询到以下配件报价信息：', 'ai', true);
+            } else {
+                // 无效的车架号
+                const responses = [
+                    '抱歉，车架号格式不正确。车架号应为17位字母和数字组合。',
+                    '请输入正确的17位车架号，例如：LE4TG4DB9KL243278',
+                    '车架号格式有误，请检查后重新输入。'
+                ];
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                addMessage(randomResponse, 'ai');
+            }
+        }
+        
+        // 生成报价卡片
+        function getQuoteCard() {
+            return `
+                <div class="quote-card">
+                    <div class="quote-header">
+                        <div>
+                            <div class="quote-car-name">🌟 奔驰 GLA 200 1.6T 2019 动感型</div>
+                            <div class="quote-vin">LE4TG4DB9KL243278</div>
+                        </div>
+                    </div>
+                    <div class="quote-item">
+                        <div>
+                            <div class="quote-item-name">空气滤芯</div>
+                            <div class="quote-item-brand">马勒 OX1188DECO</div>
+                        </div>
+                        <div class="quote-item-price">¥ 29</div>
+                    </div>
+                    <div class="quote-item">
+                        <div>
+                            <div class="quote-item-name">空气滤芯</div>
+                            <div class="quote-item-brand">巨江 JO05345 (微金)</div>
+                        </div>
+                        <div class="quote-item-price">¥ 29</div>
+                    </div>
+                    <div class="quote-item">
+                        <div>
+                            <div class="quote-item-name">空调滤芯</div>
+                            <div class="quote-item-brand">巴固特 XXX 碳陶</div>
+                        </div>
+                        <div class="quote-item-price">¥ 29</div>
+                    </div>
+                    <div style="text-align: right; padding-top: 8px; border-top: 1px solid #f0f0f0; margin-top: 8px;">
+                        <span style="font-size: 12px; color: #999;">合计：</span>
+                        <span style="font-size: 16px; color: #FF5252; font-weight: bold;">¥ 87</span>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // 获取当前时间
+        function getCurrentTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            return `${hours}:${minutes}`;
+        }
+        
+        // 回车发送消息
+        document.addEventListener('DOMContentLoaded', function() {
+            const input = document.getElementById('chat-input');
+            if (input) {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        sendMessage();
+                    }
+                });
+            }
+        });
 
         // 显示通知
         function showNotification(message) {
