@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手机验证登录</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .phone-container {
+            width: 375px;
+            height: 812px;
+            background: #fff;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            border: 12px solid #1a1a1a;
+        }
+
+        .status-bar {
+            height: 44px;
+            background: #fff;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .content {
+            padding: 60px 30px;
+            text-align: center;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: #e8e8e8;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #999;
+        }
+
+        .phone-number {
+            font-size: 24px;
+            font-weight: 500;
+            color: #333;
+            margin: 40px 0 30px;
+        }
+
+        .agreement {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+            font-size: 12px;
+            color: #666;
+            text-align: left;
+        }
+
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #ddd;
+            border-radius: 3px;
+            margin-right: 8px;
+            flex-shrink: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .checkbox.checked {
+            background: #007AFF;
+            border-color: #007AFF;
+        }
+
+        .checkbox.checked::after {
+            content: '✓';
+            color: white;
+            font-size: 14px;
+        }
+
+        .agreement-text {
+            line-height: 1.6;
+        }
+
+        .agreement-link {
+            color: #007AFF;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            width: 100%;
+            height: 50px;
+            background: #007AFF;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+            opacity: 0.9;
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            width: 100%;
+            height: 50px;
+            background: transparent;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:active {
+            background: #f8f8f8;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            width: 80%;
+            max-width: 280px;
+            text-align: center;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .modal-message {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-btn.cancel {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .modal-btn.confirm {
+            background: #007AFF;
+            color: white;
+        }
+
+        .modal-btn:active {
+            transform: scale(0.95);
+        }
+
+        @media (max-width: 400px) {
+            .phone-container {
+                width: 100%;
+                height: 100vh;
+                border-radius: 0;
+                border: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <div class="status-bar">
+            <span>⏰ 21:49</span>
+            <span>📶 🔋</span>
+        </div>
+
+        <div class="content">
+            <div class="logo">快捷登录</div>
+
+            <div class="phone-number">187****7250</div>
+
+            <div class="agreement">
+                <div class="checkbox" id="agreement-checkbox" onclick="toggleCheckbox()"></div>
+                <div class="agreement-text">
+                    我已阅读并同意<a href="#" class="agreement-link" onclick="showAgreement(event)">《隐私协议》</a><a href="#" class="agreement-link" onclick="showService(event)">《服务协议》</a>
+                </div>
+            </div>
+
+            <button class="btn-primary" id="login-btn" disabled onclick="attemptLogin()">
+                本机号码一键登录
+            </button>
+
+            <button class="btn-secondary" onclick="switchPhone()">
+                切换手机号
+            </button>
+        </div>
+    </div>
+
+    <!-- 提示弹窗 -->
+    <div class="modal-overlay" id="alert-modal">
+        <div class="modal-content">
+            <div class="modal-title">提示</div>
+            <div class="modal-message">
+                请先阅读并同意<span style="color: #007AFF;">《隐私协议》</span>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel" onclick="closeAlert()">取消</button>
+                <button class="modal-btn confirm" onclick="agreeAndContinue()">同意并登录</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isAgreed = false;
+
+        // 切换复选框
+        function toggleCheckbox() {
+            const checkbox = document.getElementById('agreement-checkbox');
+            const loginBtn = document.getElementById('login-btn');
+            
+            isAgreed = !isAgreed;
+            
+            if (isAgreed) {
+                checkbox.classList.add('checked');
+                loginBtn.disabled = false;
+            } else {
+                checkbox.classList.remove('checked');
+                loginBtn.disabled = true;
+            }
+        }
+
+        // 尝试登录
+        function attemptLogin() {
+            if (!isAgreed) {
+                document.getElementById('alert-modal').classList.add('active');
+                return;
+            }
+            
+            // 跳转到主页
+            window.location.href = 'index.html';
+        }
+
+        // 切换手机号
+        function switchPhone() {
+            window.location.href = 'phone-login.html';
+        }
+
+        // 显示协议
+        function showAgreement(event) {
+            event.preventDefault();
+            alert('这里将显示隐私协议内容');
+        }
+
+        // 显示服务协议
+        function showService(event) {
+            event.preventDefault();
+            alert('这里将显示服务协议内容');
+        }
+
+        // 关闭提示
+        function closeAlert() {
+            document.getElementById('alert-modal').classList.remove('active');
+        }
+
+        // 同意并继续
+        function agreeAndContinue() {
+            isAgreed = true;
+            document.getElementById('agreement-checkbox').classList.add('checked');
+            document.getElementById('login-btn').disabled = false;
+            closeAlert();
+            
+            // 直接登录
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 300);
+        }
+    </script>
+</body>
+</html>

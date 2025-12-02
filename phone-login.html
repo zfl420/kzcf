@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手机验证登录</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .phone-container {
+            width: 375px;
+            height: 812px;
+            background: #fff;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            border: 12px solid #1a1a1a;
+        }
+
+        .status-bar {
+            height: 44px;
+            background: #fff;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .close-btn {
+            font-size: 24px;
+            color: #666;
+            cursor: pointer;
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .content {
+            padding: 60px 30px;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        .phone-input-group {
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+            margin-bottom: 40px;
+            transition: border-color 0.3s;
+        }
+
+        .phone-input-group.focus {
+            border-color: #007AFF;
+        }
+
+        .country-code {
+            font-size: 18px;
+            color: #333;
+            margin-right: 15px;
+            font-weight: 500;
+        }
+
+        .phone-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 18px;
+            color: #333;
+            background: transparent;
+        }
+
+        .phone-input::placeholder {
+            color: #ccc;
+        }
+
+        .btn-primary {
+            width: 100%;
+            height: 50px;
+            background: #007AFF;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            opacity: 0.5;
+        }
+
+        .btn-primary.active {
+            opacity: 1;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 400px) {
+            .phone-container {
+                width: 100%;
+                height: 100vh;
+                border-radius: 0;
+                border: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <div class="status-bar">
+            <span>⏰ 21:49</span>
+            <span>📶 🔋</span>
+            <span class="close-btn" onclick="goBack()">✕</span>
+        </div>
+
+        <div class="content">
+            <div class="title">手机验证登录</div>
+
+            <div class="phone-input-group" id="input-group">
+                <span class="country-code">+86</span>
+                <input 
+                    type="tel" 
+                    class="phone-input" 
+                    id="phone-input"
+                    placeholder="请输入手机号码"
+                    maxlength="11"
+                    oninput="handlePhoneInput()"
+                    onfocus="handleFocus()"
+                    onblur="handleBlur()"
+                >
+            </div>
+
+            <button class="btn-primary" id="login-btn" onclick="goToVerify()">
+                登录
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // 返回上一页
+        function goBack() {
+            window.location.href = 'login.html';
+        }
+
+        // 处理输入
+        function handlePhoneInput() {
+            const input = document.getElementById('phone-input');
+            const btn = document.getElementById('login-btn');
+            
+            // 只允许数字
+            input.value = input.value.replace(/\D/g, '');
+            
+            // 检查是否输入了11位手机号
+            if (input.value.length === 11) {
+                btn.classList.add('active');
+                btn.disabled = false;
+            } else {
+                btn.classList.remove('active');
+                btn.disabled = true;
+            }
+        }
+
+        // 输入框获得焦点
+        function handleFocus() {
+            document.getElementById('input-group').classList.add('focus');
+        }
+
+        // 输入框失去焦点
+        function handleBlur() {
+            document.getElementById('input-group').classList.remove('focus');
+        }
+
+        // 跳转到验证码页面
+        function goToVerify() {
+            const phone = document.getElementById('phone-input').value;
+            if (phone.length === 11) {
+                // 将手机号保存到sessionStorage
+                sessionStorage.setItem('phone', phone);
+                window.location.href = 'verify-code.html';
+            }
+        }
+
+        // 页面加载时自动聚焦
+        window.onload = function() {
+            document.getElementById('phone-input').focus();
+        };
+    </script>
+</body>
+</html>
