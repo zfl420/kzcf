@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>请输入验证码</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .phone-container {
+            width: 375px;
+            height: 812px;
+            background: #fff;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            border: 12px solid #1a1a1a;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .status-bar {
+            height: 44px;
+            background: #fff;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            border-bottom: 1px solid #f0f0f0;
+            flex-shrink: 0;
+        }
+
+        .status-left {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .carrier {
+            font-size: 12px;
+        }
+
+        .close-btn {
+            font-size: 20px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .content {
+            flex: 1;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #999;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .resend-link {
+            color: #007AFF;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .code-display {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .code-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            transition: all 0.3s;
+        }
+
+        .code-dot.filled {
+            background: #007AFF;
+        }
+
+        .keyboard-container {
+            margin-top: auto;
+            background: #D1D5DB;
+            padding: 10px 5px 30px;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .keyboard-row {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .key {
+            width: 108px;
+            height: 48px;
+            background: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 24px;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 400;
+        }
+
+        .key:active {
+            background: #e0e0e0;
+            transform: scale(0.95);
+        }
+
+        .key.special {
+            background: #ABB5BE;
+            color: #333;
+            font-size: 18px;
+        }
+
+        .key.special:active {
+            background: #959FA8;
+        }
+
+        .key.delete {
+            font-size: 20px;
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 15px;
+            background: #D1D5DB;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .toolbar-item {
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+
+        .home-indicator {
+            height: 5px;
+            width: 140px;
+            background: #000;
+            border-radius: 3px;
+            margin: 10px auto 0;
+        }
+
+        @media (max-width: 400px) {
+            .phone-container {
+                width: 100%;
+                height: 100vh;
+                border-radius: 0;
+                border: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <div class="status-bar">
+            <div class="status-left">
+                <span>⏰ 09:41</span>
+                <span class="carrier">快捷登录</span>
+            </div>
+            <span>📶 🔋</span>
+            <span class="close-btn" onclick="goBack()">✕</span>
+        </div>
+
+        <div class="content">
+            <div class="title">请输入验证码</div>
+            <div class="subtitle">
+                已发送到 <span id="phone-display"></span> 
+                <a href="#" class="resend-link" onclick="resendCode(event)">更换</a>
+            </div>
+
+            <div class="code-display">
+                <div class="code-dot" id="dot-0"></div>
+                <div class="code-dot" id="dot-1"></div>
+                <div class="code-dot" id="dot-2"></div>
+                <div class="code-dot" id="dot-3"></div>
+            </div>
+
+            <div style="text-align: center; color: #999; font-size: 12px;">
+                请求验证码剩余 <span id="countdown">57</span>s
+            </div>
+        </div>
+
+        <div class="keyboard-container">
+            <div class="toolbar">
+                <div class="toolbar-item">号</div>
+                <div class="toolbar-item">点</div>
+                <div class="toolbar-item">个</div>
+                <div class="toolbar-item" style="font-weight: 500;">数字转换</div>
+                <div class="toolbar-item">的</div>
+                <div class="toolbar-item">元</div>
+                <div class="toolbar-item">×</div>
+            </div>
+
+            <div class="keyboard-row">
+                <button class="key" onclick="inputNumber(1)">1</button>
+                <button class="key" onclick="inputNumber(2)">2</button>
+                <button class="key" onclick="inputNumber(3)">3</button>
+            </div>
+
+            <div class="keyboard-row">
+                <button class="key" onclick="inputNumber(4)">4</button>
+                <button class="key" onclick="inputNumber(5)">5</button>
+                <button class="key" onclick="inputNumber(6)">6</button>
+            </div>
+
+            <div class="keyboard-row">
+                <button class="key" onclick="inputNumber(7)">7</button>
+                <button class="key" onclick="inputNumber(8)">8</button>
+                <button class="key" onclick="inputNumber(9)">9</button>
+            </div>
+
+            <div class="keyboard-row">
+                <button class="key special">符</button>
+                <button class="key" onclick="inputNumber(0)">0</button>
+                <button class="key special delete" onclick="deleteNumber()">⌫</button>
+            </div>
+
+            <div style="display: flex; justify-content: center; padding-top: 5px;">
+                <div style="width: 36px; height: 4px; background: #fff; border-radius: 2px;"></div>
+            </div>
+        </div>
+
+        <div class="home-indicator"></div>
+    </div>
+
+    <script>
+        let code = '';
+        let countdownTimer;
+        let countdown = 57;
+
+        // 初始化
+        window.onload = function() {
+            // 显示手机号
+            const phone = sessionStorage.getItem('phone') || '18070087250';
+            const maskedPhone = phone.substring(0, 3) + '****' + phone.substring(7);
+            document.getElementById('phone-display').textContent = maskedPhone;
+
+            // 启动倒计时
+            startCountdown();
+        };
+
+        // 倒计时
+        function startCountdown() {
+            countdownTimer = setInterval(() => {
+                countdown--;
+                document.getElementById('countdown').textContent = countdown;
+                
+                if (countdown <= 0) {
+                    clearInterval(countdownTimer);
+                    document.getElementById('countdown').textContent = '0';
+                }
+            }, 1000);
+        }
+
+        // 输入数字
+        function inputNumber(num) {
+            if (code.length < 4) {
+                code += num;
+                updateDisplay();
+                
+                // 如果输入完4位，自动验证
+                if (code.length === 4) {
+                    setTimeout(verifyCode, 500);
+                }
+            }
+        }
+
+        // 删除数字
+        function deleteNumber() {
+            if (code.length > 0) {
+                code = code.slice(0, -1);
+                updateDisplay();
+            }
+        }
+
+        // 更新显示
+        function updateDisplay() {
+            for (let i = 0; i < 4; i++) {
+                const dot = document.getElementById(`dot-${i}`);
+                if (i < code.length) {
+                    dot.classList.add('filled');
+                } else {
+                    dot.classList.remove('filled');
+                }
+            }
+        }
+
+        // 验证验证码
+        function verifyCode() {
+            // 这里可以添加实际的验证逻辑
+            // 模拟验证成功
+            clearInterval(countdownTimer);
+            
+            // 显示验证成功提示
+            showToast('验证成功！');
+            
+            // 跳转到主页
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1000);
+        }
+
+        // 重新发送验证码
+        function resendCode(event) {
+            event.preventDefault();
+            window.location.href = 'phone-login.html';
+        }
+
+        // 返回
+        function goBack() {
+            clearInterval(countdownTimer);
+            window.location.href = 'phone-login.html';
+        }
+
+        // 显示提示
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 15px 30px;
+                border-radius: 10px;
+                font-size: 16px;
+                z-index: 10000;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
