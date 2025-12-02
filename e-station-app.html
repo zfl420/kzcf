@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E站APP - 汽车配件商城</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .app-container {
+            width: 375px;
+            height: 812px;
+            background: #f5f5f5;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            border: 12px solid #1a1a1a;
+        }
+
+        .status-bar {
+            height: 44px;
+            background: #fff;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .page {
+            display: none;
+            height: calc(100% - 44px);
+            overflow-y: auto;
+            background: #f5f5f5;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* 首页样式 */
+        .home-header {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF5252 100%);
+            padding: 15px 20px;
+            color: white;
+        }
+
+        .location {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .search-bar {
+            background: white;
+            border-radius: 20px;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            flex: 1;
+            font-size: 14px;
+        }
+
+        .quick-menu {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 20px;
+            background: white;
+            margin-bottom: 10px;
+        }
+
+        .quick-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .quick-item:active {
+            transform: scale(0.95);
+        }
+
+        .quick-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff4444;
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+
+        .quick-text {
+            font-size: 12px;
+            color: #333;
+        }
+
+        .store-card {
+            background: white;
+            margin: 10px 20px;
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .store-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .store-title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .store-info {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .store-menu {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .store-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .store-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #F093FB 0%, #F5576C 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .order-list {
+            border-top: 1px solid #f0f0f0;
+            padding-top: 15px;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .order-item:active {
+            background: #f8f8f8;
+        }
+
+        .banner {
+            margin: 10px 20px;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .banner img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .category-grid {
+            background: white;
+            margin: 10px 20px;
+            padding: 15px;
+            border-radius: 12px;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+        }
+
+        .category-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .category-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 375px;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s;
+        }
+
+        .nav-item.active {
+            color: #FF5252;
+        }
+
+        .nav-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .nav-text {
+            font-size: 11px;
+        }
+
+        /* AI报价页面 */
+        .page-header {
+            background: white;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .back-btn {
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .page-title {
+            flex: 1;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .car-image {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #999;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: flex-end;
+            padding: 10px 20px;
+            background: white;
+        }
+
+        .tab {
+            padding: 5px 15px;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .car-info {
+            background: white;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+        }
+
+        .car-model {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .car-logo {
+            font-size: 28px;
+        }
+
+        .car-vin {
+            font-size: 13px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .parts-section {
+            background: white;
+            margin-bottom: 10px;
+        }
+
+        .section-header {
+            padding: 12px 20px;
+            background: #f8f8f8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .modify-btn {
+            color: #FF5252;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .part-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .part-info {
+            flex: 1;
+        }
+
+        .part-name {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .part-code {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .part-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .part-price {
+            color: #FF5252;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f5f5f5;
+            border-radius: 20px;
+            padding: 5px 10px;
+        }
+
+        .quantity-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .quantity {
+            min-width: 30px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .add-btn {
+            width: 30px;
+            height: 30px;
+            background: #FF5252;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .show-more {
+            text-align: center;
+            padding: 10px;
+            color: #999;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .cart-footer {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 375px;
+            background: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cart-icon {
+            position: relative;
+            font-size: 32px;
+            color: #FF5252;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff4444;
+            color: white;
+            font-size: 10px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-price {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .total-price {
+            color: #FF5252;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .discount {
+            font-size: 11px;
+            color: #999;
+        }
+
+        .checkout-btn {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF5252 100%);
+            color: white;
+            padding: 12px 35px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* 个人中心 */
+        .profile-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            color: white;
+        }
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .avatar {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .username {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .store-name {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .settings-icon {
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .order-section {
+            background: white;
+            margin: 10px 20px;
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .section-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .view-all {
+            font-size: 12px;
+            color: #999;
+            cursor: pointer;
+        }
+
+        .order-menu {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .order-menu-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .order-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF5252 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .manage-section {
+            background: white;
+            margin: 10px 20px;
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .alert-message {
+            background: #fff3f3;
+            color: #ff4444;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+
+        .manage-menu {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .manage-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .manage-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #F093FB 0%, #F5576C 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page.active {
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* 响应式 */
+        @media (max-width: 400px) {
+            .app-container {
+                width: 100%;
+                height: 100vh;
+                border-radius: 0;
+                border: none;
+            }
+            
+            .bottom-nav,
+            .cart-footer {
+                width: 100%;
+            }
+        }
+
+        /* 滚动条样式 */
+        .page::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .page::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .page::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        .page::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <span>⏰ 21:49</span>
+            <span>📶 🔋</span>
+        </div>
+
+        <!-- 首页 -->
+        <div class="page active" id="home-page">
+            <div class="home-header">
+                <div class="location">📍 深圳市</div>
+                <div class="search-bar">
+                    <span>🔍</span>
+                    <input type="text" placeholder="商品名称、品牌、规格型号">
+                    <span>🔄</span>
+                    <span>🛒</span>
+                </div>
+            </div>
+
+            <div class="quick-menu">
+                <div class="quick-item" onclick="showNotification('快捷收款')">
+                    <div class="quick-icon" style="background: linear-gradient(135deg, #FF6B6B 0%, #FF5252 100%);">💰</div>
+                    <div class="quick-text">快捷收款</div>
+                </div>
+                <div class="quick-item" onclick="navigateTo('quote-page')">
+                    <div class="quick-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        🚗
+                        <span class="badge">今日</span>
+                    </div>
+                    <div class="quick-text">直销价</div>
+                </div>
+                <div class="quick-item" onclick="showNotification('生活福利')">
+                    <div class="quick-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        🎁
+                        <span class="badge">福利</span>
+                    </div>
+                    <div class="quick-text">生活福利</div>
+                </div>
+                <div class="quick-item" onclick="showNotification('卡券')">
+                    <div class="quick-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">🎫</div>
+                    <div class="quick-text">卡券</div>
+                </div>
+                <div class="quick-item" onclick="showNotification('电子目录')">
+                    <div class="quick-icon" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">📱</div>
+                    <div class="quick-text">电子目录</div>
+                </div>
+            </div>
+
+            <div class="store-card">
+                <div class="store-header">
+                    <div>
+                        <div class="store-title">门店管理</div>
+                        <div class="store-info">今日盈亏: 1户值 ¥0.00</div>
+                    </div>
+                </div>
+                <div class="store-menu">
+                    <div class="store-item" onclick="showNotification('提车开单')">
+                        <div class="store-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">🚘</div>
+                        <div class="quick-text">提车开单</div>
+                    </div>
+                    <div class="store-item" onclick="showNotification('做营销')">
+                        <div class="store-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">📢</div>
+                        <div class="quick-text">做营销</div>
+                    </div>
+                    <div class="store-item" onclick="showNotification('管商机')">
+                        <div class="store-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">💼</div>
+                        <div class="quick-text">管商机</div>
+                    </div>
+                    <div class="store-item" onclick="showNotification('管库存')">
+                        <div class="store-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">📦</div>
+                        <div class="quick-text">管库存</div>
+                    </div>
+                    <div class="store-item" onclick="showNotification('查工单')">
+                        <div class="store-icon" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">📋</div>
+                        <div class="quick-text">查工单</div>
+                    </div>
+                    <div class="store-item" onclick="showNotification('客户车辆')">
+                        <div class="store-icon" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">🚙</div>
+                        <div class="quick-text">客户车辆</div>
+                    </div>
+                    <div class="store-item" onclick="showNotification('查报表')">
+                        <div class="store-icon" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">📊</div>
+                        <div class="quick-text">查报表</div>
+                    </div>
+                    <div class="store-item" onclick="showNotification('操作指引')">
+                        <div class="store-icon" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);">❓</div>
+                        <div class="quick-text">操作指引</div>
+                    </div>
+                </div>
+                <div class="order-list">
+                    <div class="order-item" onclick="showNotification('查看订单')">
+                        <span>🔹 顺A 88888 待发货</span>
+                        <span style="color: #ff4444;">99+</span>
+                    </div>
+                    <div class="order-item" onclick="showNotification('查看订单')">
+                        <span>🔹 赣N 99999 待发货 成盒维修 机油桶</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="banner" onclick="showNotification('查看活动详情')">
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 120px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; font-weight: bold;">
+                    🎉 不动能游车配件，打开新篇章 🎉
+                </div>
+            </div>
+
+            <div class="category-grid">
+                <div class="category-item" onclick="showNotification('油品')">
+                    <div class="category-icon" style="background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);">🛢️</div>
+                    <div class="quick-text">油品</div>
+                </div>
+                <div class="category-item" onclick="showNotification('轮胎油轮')">
+                    <div class="category-icon" style="background: linear-gradient(135deg, #fdcbf1 0%, #e6dee9 100%);">⚫</div>
+                    <div class="quick-text">轮胎油轮</div>
+                </div>
+                <div class="category-item" onclick="showNotification('过滤系统')">
+                    <div class="category-icon" style="background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);">🔧</div>
+                    <div class="quick-text">过滤系统</div>
+                </div>
+                <div class="category-item" onclick="showNotification('养护用品')">
+                    <div class="category-icon" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">🧴</div>
+                    <div class="quick-text">养护用品</div>
+                </div>
+                <div class="category-item" onclick="showNotification('蓄电池')">
+                    <div class="category-icon" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);">🔋</div>
+                    <div class="quick-text">蓄电池</div>
+                </div>
+                <div class="category-item" onclick="showNotification('雨刮系统')">
+                    <div class="category-icon" style="background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);">🌂</div>
+                    <div class="quick-text">雨刮系统</div>
+                </div>
+                <div class="category-item" onclick="showNotification('照明系统')">
+                    <div class="category-icon" style="background: linear-gradient(135deg, #fdcbf1 0%, #e6dee9 100%);">💡</div>
+                    <div class="quick-text">照明系统</div>
+                </div>
+                <div class="category-item" onclick="showNotification('点火系统')">
+                    <div class="category-icon" style="background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);">⚡</div>
+                    <div class="quick-text">点火系统</div>
+                </div>
+                <div class="category-item" onclick="showNotification('制动系统')">
+                    <div class="category-icon" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">🛑</div>
+                    <div class="quick-text">制动系统</div>
+                </div>
+                <div class="category-item" onclick="showNotification('更多')">
+                    <div class="category-icon" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);">⋯</div>
+                    <div class="quick-text">更多</div>
+                </div>
+            </div>
+
+            <div style="height: 80px;"></div>
+        </div>
+
+        <!-- AI报价页面 -->
+        <div class="page" id="quote-page">
+            <div class="page-header">
+                <span class="back-btn" onclick="navigateTo('home-page')">←</span>
+                <span class="page-title">AI报价</span>
+                <span></span>
+            </div>
+
+            <div class="car-image">
+                <div style="font-size: 48px;">🚗</div>
+            </div>
+
+            <div class="tabs">
+                <span class="tab">2滤</span>
+            </div>
+
+            <div class="car-info">
+                <div class="car-model">
+                    <span class="car-logo">🌟</span>
+                    <span>奔驰 GLA 200 1.6T 2019 动感型</span>
+                </div>
+                <div class="car-vin">
+                    <span>LE4TG4DB9KL243278</span>
+                    <span>📋</span>
+                    <span style="background: #f0f0f0; padding: 2px 8px; border-radius: 10px; font-size: 11px;">FPC</span>
+                </div>
+            </div>
+
+            <div class="parts-section">
+                <div class="section-header">
+                    <div>
+                        <span class="section-title">空气滤芯</span>
+                        <span style="color: #999; font-size: 12px; margin-left: 10px;">(3)</span>
+                    </div>
+                    <span class="modify-btn">修改配件</span>
+                </div>
+                <div class="section-header" style="background: white; border-top: 1px solid #f0f0f0;">
+                    <span style="font-size: 13px;">用量：4</span>
+                </div>
+                <div class="part-item">
+                    <div class="part-info">
+                        <div class="part-name">马勒 OX1188DECO</div>
+                    </div>
+                    <div class="part-right">
+                        <span class="part-price">¥ 29</span>
+                        <div class="add-btn" onclick="addToCart('马勒 OX1188DECO', 29)">+</div>
+                    </div>
+                </div>
+                <div class="part-item">
+                    <div class="part-info">
+                        <div class="part-name">巨江 JO05345</div>
+                        <div class="part-code">微金</div>
+                    </div>
+                    <div class="part-right">
+                        <span class="part-price">¥ 29</span>
+                        <div class="quantity-control" id="item-1">
+                            <span class="quantity-btn" onclick="updateQuantity('item-1', -1)">−</span>
+                            <span class="quantity">4</span>
+                            <span class="quantity-btn" onclick="updateQuantity('item-1', 1)">+</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="part-item">
+                    <div class="part-info">
+                        <div class="part-name">巨江 JO05345</div>
+                    </div>
+                    <div class="part-right">
+                        <span class="part-price">¥ 29</span>
+                        <div class="add-btn" onclick="addToCart('巨江 JO05345', 29)">+</div>
+                    </div>
+                </div>
+                <div class="show-more">展开全部 ∨</div>
+            </div>
+
+            <div class="parts-section">
+                <div class="section-header">
+                    <div>
+                        <span class="section-title">空调滤芯</span>
+                        <span style="color: #999; font-size: 12px; margin-left: 10px;">(5)</span>
+                    </div>
+                </div>
+                <div class="part-item">
+                    <div class="part-info">
+                        <div class="part-name">巴固特 XXX 碳陶</div>
+                    </div>
+                    <div class="part-right">
+                        <span class="part-price">¥ 29</span>
+                        <div class="add-btn" onclick="addToCart('巴固特 XXX 碳陶', 29)">+</div>
+                    </div>
+                </div>
+                <div class="part-item">
+                    <div class="part-info">
+                        <div class="part-name">巴固特 XXX 碳陶</div>
+                    </div>
+                    <div class="part-right">
+                        <span class="part-price">¥ 29</span>
+                        <div class="quantity-control" id="item-2">
+                            <span class="quantity-btn" onclick="updateQuantity('item-2', -1)">−</span>
+                            <span class="quantity">2</span>
+                            <span class="quantity-btn" onclick="updateQuantity('item-2', 1)">+</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="height: 100px;"></div>
+
+            <div class="cart-footer">
+                <div class="cart-info">
+                    <div class="cart-icon">
+                        🛒
+                        <span class="cart-badge" id="cart-count">2</span>
+                    </div>
+                    <div class="cart-price">
+                        <div class="total-price" id="total-price">¥ 355.52</div>
+                        <div class="discount">优惠 ¥ 0.00</div>
+                    </div>
+                </div>
+                <button class="checkout-btn" onclick="checkout()">结算</button>
+            </div>
+        </div>
+
+        <!-- 个人中心页面 -->
+        <div class="page" id="profile-page">
+            <div class="profile-header">
+                <div class="profile-info">
+                    <div class="avatar">👤</div>
+                    <div class="user-info">
+                        <div class="username">邹飞龙</div>
+                        <div class="store-name">广州市黄埔区车公关汽车美容店</div>
+                    </div>
+                    <div class="settings-icon" onclick="showNotification('设置')">⚙️</div>
+                </div>
+            </div>
+
+            <div class="order-section">
+                <div class="section-title-row">
+                    <span class="section-title">我的订单</span>
+                    <span class="view-all" onclick="showNotification('查看全部订单')">全部订单 →</span>
+                </div>
+                <div class="order-menu">
+                    <div class="order-menu-item" onclick="showNotification('待付款')">
+                        <div class="order-icon">💳</div>
+                        <div class="quick-text">待付款</div>
+                    </div>
+                    <div class="order-menu-item" onclick="showNotification('待发货')">
+                        <div class="order-icon">📦</div>
+                        <div class="quick-text">待发货</div>
+                    </div>
+                    <div class="order-menu-item" onclick="showNotification('待收货')">
+                        <div class="order-icon">
+                            🚚
+                            <span class="badge" style="position: absolute; top: -5px; right: -5px;">2</span>
+                        </div>
+                        <div class="quick-text">待收货</div>
+                    </div>
+                    <div class="order-menu-item" onclick="showNotification('待评价')">
+                        <div class="order-icon">
+                            ⭐
+                            <span class="badge" style="position: absolute; top: -5px; right: -5px;">2</span>
+                        </div>
+                        <div class="quick-text">待评价</div>
+                    </div>
+                    <div class="order-menu-item" onclick="showNotification('退款/售后')">
+                        <div class="order-icon">
+                            ↩️
+                            <span class="badge" style="position: absolute; top: -5px; right: -5px;">2</span>
+                        </div>
+                        <div class="quick-text">退款/售后</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="manage-section">
+                <div class="section-title-row">
+                    <span class="section-title">门店管理</span>
+                </div>
+                <div class="alert-message">
+                    系统使用期已过期，请您及时续费 →
+                </div>
+                <div class="manage-menu">
+                    <div class="manage-item" onclick="showNotification('员工管理')">
+                        <div class="manage-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">👥</div>
+                        <div class="quick-text">员工管理</div>
+                    </div>
+                    <div class="manage-item" onclick="showNotification('门店管理')">
+                        <div class="manage-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">🏪</div>
+                        <div class="quick-text">门店管理</div>
+                    </div>
+                    <div class="manage-item" onclick="showNotification('客户车辆')">
+                        <div class="manage-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">🚗</div>
+                        <div class="quick-text">客户车辆</div>
+                    </div>
+                    <div class="manage-item" onclick="showNotification('配件管理')">
+                        <div class="manage-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">🔧</div>
+                        <div class="quick-text">配件管理</div>
+                    </div>
+                    <div class="manage-item" onclick="showNotification('工时管理')">
+                        <div class="manage-icon" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">⏱️</div>
+                        <div class="quick-text">工时管理</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="height: 80px;"></div>
+        </div>
+
+        <!-- 底部导航 -->
+        <div class="bottom-nav">
+            <div class="nav-item active" onclick="navigateTo('home-page')">
+                <div class="nav-icon">🏠</div>
+                <div class="nav-text">首页</div>
+            </div>
+            <div class="nav-item" onclick="navigateTo('quote-page')">
+                <div class="nav-icon">💬</div>
+                <div class="nav-text">沟通</div>
+            </div>
+            <div class="nav-item" onclick="showNotification('发布商圈')">
+                <div class="nav-icon" style="font-size: 32px; color: #FF5252;">➕</div>
+                <div class="nav-text">发布商圈</div>
+            </div>
+            <div class="nav-item" onclick="showNotification('圈社')">
+                <div class="nav-icon">📊</div>
+                <div class="nav-text">圈社</div>
+            </div>
+            <div class="nav-item" onclick="navigateTo('profile-page')">
+                <div class="nav-icon">👤</div>
+                <div class="nav-text">我的</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 页面导航
+        function navigateTo(pageId) {
+            // 隐藏所有页面
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // 显示目标页面
+            document.getElementById(pageId).classList.add('active');
+            
+            // 更新底部导航状态
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            if (pageId === 'home-page') {
+                document.querySelectorAll('.nav-item')[0].classList.add('active');
+            } else if (pageId === 'profile-page') {
+                document.querySelectorAll('.nav-item')[4].classList.add('active');
+            }
+        }
+
+        // 购物车数据
+        let cartItems = 2;
+        let totalPrice = 355.52;
+
+        // 添加到购物车
+        function addToCart(itemName, price) {
+            cartItems++;
+            totalPrice += price;
+            updateCart();
+            showNotification(`已添加 ${itemName} 到购物车`);
+        }
+
+        // 更新数量
+        function updateQuantity(itemId, delta) {
+            const item = document.getElementById(itemId);
+            const quantityEl = item.querySelector('.quantity');
+            let quantity = parseInt(quantityEl.textContent);
+            
+            quantity += delta;
+            if (quantity < 1) quantity = 1;
+            
+            quantityEl.textContent = quantity;
+            
+            // 更新购物车
+            if (delta > 0) {
+                cartItems++;
+                totalPrice += 29;
+            } else if (delta < 0 && cartItems > 0) {
+                cartItems--;
+                totalPrice -= 29;
+            }
+            
+            updateCart();
+        }
+
+        // 更新购物车显示
+        function updateCart() {
+            document.getElementById('cart-count').textContent = cartItems;
+            document.getElementById('total-price').textContent = `¥ ${totalPrice.toFixed(2)}`;
+        }
+
+        // 结算
+        function checkout() {
+            if (cartItems === 0) {
+                showNotification('购物车是空的');
+                return;
+            }
+            showNotification(`正在结算 ${cartItems} 件商品，总计 ¥${totalPrice.toFixed(2)}`);
+        }
+
+        // 显示通知
+        function showNotification(message) {
+            // 创建通知元素
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 15px 30px;
+                border-radius: 10px;
+                font-size: 14px;
+                z-index: 10000;
+                animation: fadeInOut 2s ease;
+            `;
+            notification.textContent = message;
+            
+            // 添加动画样式
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeInOut {
+                    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+                    15% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+                    85% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+                    100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(notification);
+            
+            // 2秒后移除
+            setTimeout(() => {
+                notification.remove();
+            }, 2000);
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('E站APP已加载');
+        });
+    </script>
+</body>
+</html>
