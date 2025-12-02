@@ -670,6 +670,241 @@
             animation: fadeIn 0.3s ease;
         }
 
+        /* 设置页面 */
+        .settings-list {
+            background: #f5f5f5;
+            padding: 10px 0;
+        }
+
+        .settings-item {
+            background: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .settings-item:active {
+            background: #f8f8f8;
+        }
+
+        .settings-item:first-child {
+            margin-top: 10px;
+        }
+
+        .settings-label {
+            font-size: 15px;
+            color: #333;
+            flex: 1;
+        }
+
+        .settings-value {
+            font-size: 14px;
+            color: #999;
+            margin-right: 10px;
+            flex: 2;
+            text-align: right;
+        }
+
+        .settings-value.address {
+            font-size: 13px;
+        }
+
+        .settings-arrow {
+            color: #ccc;
+            font-size: 18px;
+        }
+
+        .version-info {
+            background: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        /* 地址选择页面 */
+        .map-container {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .map-placeholder {
+            text-align: center;
+            color: #666;
+        }
+
+        .map-marker {
+            position: absolute;
+            font-size: 32px;
+            animation: markerBounce 1s infinite;
+        }
+
+        @keyframes markerBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .map-controls {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .map-btn {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .map-search {
+            background: white;
+            margin: 15px 20px;
+            padding: 12px 15px;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .map-search input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .address-detail {
+            background: white;
+            margin: 10px 20px;
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .address-tag {
+            display: inline-block;
+            color: #FF5252;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .address-street {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .address-full {
+            font-size: 16px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .save-address-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 14px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 20px;
+            cursor: pointer;
+            border: none;
+            width: calc(100% - 40px);
+        }
+
+        .save-address-btn:active {
+            opacity: 0.8;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            width: 80%;
+            max-width: 300px;
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .modal-btn.cancel {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .modal-btn.confirm {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
         /* 响应式 */
         @media (max-width: 400px) {
             .app-container {
@@ -981,9 +1216,9 @@
                     <div class="avatar">👤</div>
                     <div class="user-info">
                         <div class="username">邹飞龙</div>
-                        <div class="store-name">广州市黄埔区车公关汽车美容店</div>
+                        <div class="store-name">广州市黄埔区车公馆汽车美容店</div>
                     </div>
-                    <div class="settings-icon" onclick="showNotification('设置')">⚙️</div>
+                    <div class="settings-icon" onclick="navigateTo('settings-page')">⚙️</div>
                 </div>
             </div>
 
@@ -1057,6 +1292,98 @@
             </div>
 
             <div style="height: 80px;"></div>
+        </div>
+
+        <!-- 设置页面 -->
+        <div class="page" id="settings-page">
+            <div class="page-header">
+                <span class="back-btn" onclick="navigateTo('profile-page')">←</span>
+                <span class="page-title">设置</span>
+                <span></span>
+            </div>
+
+            <div class="settings-list">
+                <div class="settings-item" onclick="showNotification('店铺信息')">
+                    <span class="settings-label">广州市黄埔区车公馆汽车美容店</span>
+                    <span class="settings-arrow">›</span>
+                </div>
+            </div>
+
+            <div class="settings-list">
+                <div class="settings-item" onclick="navigateTo('address-page')">
+                    <span class="settings-label">收货地址</span>
+                    <span class="settings-value address" id="display-address">浙江省 杭州市 余杭区 仓前街道<br>欧美金融城T6幢36层</span>
+                    <span class="settings-arrow">›</span>
+                </div>
+
+                <div class="settings-item" onclick="editPhone()">
+                    <span class="settings-label">手机号</span>
+                    <span class="settings-value" id="display-phone">187****7250</span>
+                    <span class="settings-arrow">›</span>
+                </div>
+
+                <div class="settings-item" onclick="editName()">
+                    <span class="settings-label">收货人</span>
+                    <span class="settings-value" id="display-name">邹飞龙</span>
+                    <span class="settings-arrow">›</span>
+                </div>
+            </div>
+
+            <div class="version-info">
+                <span class="settings-label">版本号</span>
+                <span class="settings-value">V1.0.1</span>
+            </div>
+
+            <div style="height: 80px;"></div>
+        </div>
+
+        <!-- 地址选择页面 -->
+        <div class="page" id="address-page">
+            <div class="page-header" style="background: #8c8c8c; color: white;">
+                <span class="back-btn" onclick="navigateTo('settings-page')" style="color: white;">←</span>
+                <span class="page-title" style="color: white;">设置</span>
+                <span class="back-btn" onclick="navigateTo('settings-page')" style="color: white;">✕</span>
+            </div>
+
+            <div class="map-container">
+                <div class="map-placeholder">
+                    <div style="font-size: 14px; margin-bottom: 10px;">📍 拖动地图，精准定位地址</div>
+                    <div style="font-size: 12px; color: #999;">🗺️ 地图加载中...</div>
+                </div>
+                <div class="map-marker">📍</div>
+                <div class="map-controls">
+                    <div class="map-btn" onclick="showNotification('定位当前位置')">📍</div>
+                    <div class="map-btn" onclick="showNotification('放大地图')">+</div>
+                </div>
+            </div>
+
+            <div class="map-search">
+                <span>🔍</span>
+                <input type="text" placeholder="搜索地址，更快填写" id="search-address">
+                <span onclick="showNotification('智能贴站')">🎯</span>
+            </div>
+
+            <div class="address-detail">
+                <div class="address-tag">✱ 浙江省杭州市余杭区仓前街道 ∨</div>
+                <div class="address-street">✱ 详细地址与门牌号</div>
+                <div class="address-full">欧美金融城T6幢36层</div>
+            </div>
+
+            <button class="save-address-btn" onclick="saveAddress()">保存地址</button>
+
+            <div style="height: 80px;"></div>
+        </div>
+
+        <!-- 模态框 -->
+        <div class="modal-overlay" id="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-title" id="modal-title">编辑信息</div>
+                <input type="text" class="modal-input" id="modal-input" placeholder="请输入">
+                <div class="modal-buttons">
+                    <button class="modal-btn cancel" onclick="closeModal()">取消</button>
+                    <button class="modal-btn confirm" onclick="confirmModal()">确定</button>
+                </div>
+            </div>
         </div>
 
         <!-- 底部导航 -->
@@ -1195,6 +1522,74 @@
                 notification.remove();
             }, 2000);
         }
+
+        // 设置页面功能
+        let currentEditField = '';
+
+        // 编辑手机号
+        function editPhone() {
+            currentEditField = 'phone';
+            document.getElementById('modal-title').textContent = '编辑手机号';
+            document.getElementById('modal-input').value = '18712347250';
+            document.getElementById('modal-input').type = 'tel';
+            document.getElementById('modal-overlay').classList.add('active');
+        }
+
+        // 编辑收货人
+        function editName() {
+            currentEditField = 'name';
+            document.getElementById('modal-title').textContent = '编辑收货人';
+            document.getElementById('modal-input').value = '邹飞龙';
+            document.getElementById('modal-input').type = 'text';
+            document.getElementById('modal-overlay').classList.add('active');
+        }
+
+        // 关闭模态框
+        function closeModal() {
+            document.getElementById('modal-overlay').classList.remove('active');
+            currentEditField = '';
+        }
+
+        // 确认模态框
+        function confirmModal() {
+            const value = document.getElementById('modal-input').value.trim();
+            
+            if (!value) {
+                showNotification('输入不能为空');
+                return;
+            }
+
+            if (currentEditField === 'phone') {
+                // 隐藏中间4位
+                const masked = value.substring(0, 3) + '****' + value.substring(7);
+                document.getElementById('display-phone').textContent = masked;
+                showNotification('手机号已更新');
+            } else if (currentEditField === 'name') {
+                document.getElementById('display-name').textContent = value;
+                showNotification('收货人已更新');
+            }
+
+            closeModal();
+        }
+
+        // 保存地址
+        function saveAddress() {
+            const address = document.getElementById('search-address').value || '浙江省 杭州市 余杭区 仓前街道 欧美金融城T6幢36层';
+            
+            // 格式化地址显示
+            const formattedAddress = '浙江省 杭州市 余杭区 仓前街道<br>欧美金融城T6幢36层';
+            document.getElementById('display-address').innerHTML = formattedAddress;
+            
+            showNotification('地址已保存');
+            navigateTo('settings-page');
+        }
+
+        // 点击模态框背景关闭
+        document.addEventListener('click', function(e) {
+            if (e.target.id === 'modal-overlay') {
+                closeModal();
+            }
+        });
 
         // 初始化
         document.addEventListener('DOMContentLoaded', function() {
